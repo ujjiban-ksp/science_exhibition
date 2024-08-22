@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Delayed Informer</title>
+    <style>
+        body {
+            background-color: skyblue;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #nameList {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight Delayed Informer</h1>
+    <button onclick="startGeneratingNames()">Send</button>
+    <div id="nameList"></div>
+
+    <script>
+        const names = [
+            "Lucky Deori", "Sophia", "Liam", "Olivia", "Jackson", "Emma", "Ethan", "Ava",
+            "Mason", "Isabella", "Jacob", "Mia", "Noah", "Charlotte", "Lucas", "Amelia",
+            "Logan", "Harper", "Rishika Dutta", "Evelyn", "Benjamin", "Asin Doley", "Elijah", "Ella",
+            "William", "Avery", "Alexander", "Sofia", "Michael", "Camila", "Daniel", "Aria",
+            "Matthew", "Rishabh Nath", "Henry", "Grace", "Ujjiban Bhattacharjee", "Chloe", "Samuel", "Lily",
+            "David", "Aurora", "Isaac", "Zoey", "Gabriel", "Mubashirah Jahan", "Carter", "Luna",
+            "Owen", "Mila", "Wyatt", "Ella", "John", "Maya", "Dylan", "Eleanor"
+        ];
+        const usedNames = new Set();
+        let intervalId;
+
+        function startGeneratingNames() {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            usedNames.clear();
+            document.getElementById('nameList').innerHTML = '';
+            intervalId = setInterval(generateName, 400);
+        }
+
+        function generateName() {
+            if (usedNames.size >= names.length) {
+                clearInterval(intervalId);
+                alert('All names have been used!');
+                return;
+            }
+
+            const availableNames = names.filter(name => !usedNames.has(name));
+            const randomName = availableNames[Math.floor(Math.random() * availableNames.length)];
+            usedNames.add(randomName);
+
+            const nameList = document.getElementById('nameList');
+            const newName = document.createElement('div');
+            newName.textContent = randomName;
+            nameList.appendChild(newName);
+        }
+    </script>
+    <script src="js/script.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyBUQqABDmVOywrGkJup44J13VhyhgHLWpo",
+          authDomain: "se333-81b07.firebaseapp.com",
+          projectId: "se333-81b07",
+          storageBucket: "se333-81b07.appspot.com",
+          messagingSenderId: "725001726135",
+          appId: "1:725001726135:web:65159f8a1fa67e0669c532",
+          measurementId: "G-JGLZZT64MN"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        const message = {
+  username: "JohnDoe",
+  text: "Hello, Firebase!",
+  timestamp: Date.now()
+};
+
+import { ref, set } from "firebase/database";
+
+// Reference to the location where you want to store data
+const messageRef = ref(database, 'messages/' + message.timestamp);
+
+// Set the data
+set(messageRef, message)
+  .then(() => {
+    console.log('Message sent successfully!');
+  })
+  .catch((error) => {
+    console.error('Error sending message:', error);
+  });
+
+  import { ref, onValue } from "firebase/database";
+
+const messagesRef = ref(database, 'messages/');
+
+onValue(messagesRef, (snapshot) => {
+  const data = snapshot.val();
+  console.log('New message:', data);
+});
+
+      </script>
+</body>
+</html>
